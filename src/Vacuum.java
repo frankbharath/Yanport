@@ -35,12 +35,12 @@ public class Vacuum {
     }
 
     // returns initial or final orientation of the vacuum cleaner.
-    public char getOrientationChar(){
-        return getOrientation().key;
+    public char getOrientation(){
+        return Orientation.getOrientationForValue(this.orientation);
     }
 
     // creates new object for vacuum cleaner, all the given parameters are mandatory for vacuum cleaner to work.
-    public Vacuum(int x, int y, Grid grid, Orientation orientation){
+    public Vacuum(int x, int y, Grid grid, int orientation){
         // validating the state parameters of the vacuum cleaner to ensure
         // that we are dealing with sanitized value.
         String error="The argument %s is invalid";
@@ -56,7 +56,7 @@ public class Vacuum {
         this.x=x;
         this.y=y;
         this.grid=grid;
-        this.orientation=orientation.value;
+        this.orientation=orientation;
     }
 
     // Vacuum cleaner receives the commands that needs to be executed
@@ -64,7 +64,7 @@ public class Vacuum {
         char[] actionArray=commands.toCharArray();
         for(char c:actionArray){
             // There are 3 commands as of now D, G and A, and cross checking if the command exist or not
-            Command command=getCommandValue(c);
+            Command command=Command.getCommand(c);
             if(command!=null){
                 // checking the type of command here, if the command is to rotate, then I will change the
                 // orientation of the vacuum cleaner.
@@ -83,16 +83,12 @@ public class Vacuum {
     // Changes the direction of the vacuum cleaner
     private void changeDirection(Command command){
         // getting the current orientation of the vacuum cleaner to change.
-        Orientation old=getOrientation();
+        char old = Orientation.getOrientationForValue(this.orientation);
         // There are 4 directions as of now, i) North, ii) East, iii) South, iv) West. In numerical terms there are represented as 0(North), 1(East), 2(South), 3(West)
         // If the position of the vacuum cleaner is at North and the current command is 'G(rotate left)', then the vacuum should be
         // facing West, below line determines which direction the vacuum cleaner should face.
-        // For example, current orientation is North(0) and should be turned towards left ie West(3) then the calculation should be
-        // ((((0+(-1))%4)+4)%4)=>3, -1%4 gives -1 and then it is added with total orientations 4, now again 3%4 is taken
-        // and the result is 3. Double modulation is required to handle negative numbers.
-        // Please check the VacuumConstants class for more information.
         this.orientation=(((this.orientation+command.value)%TOTAL_ORIENTATIONS)+TOTAL_ORIENTATIONS)%TOTAL_ORIENTATIONS;
-        log("Vacuum cleaner rotated from "+old+" to "+getOrientation());
+        log("Vacuum cleaner rotated from "+old+" to "+Orientation.getOrientationForValue(this.orientation));
     }
 
     // Moves the vacuum cleaner in the current direction
@@ -113,25 +109,6 @@ public class Vacuum {
         log("Vacuum cleaner moved from "+oldX+", "+oldY+" to "+this.x+", "+this.y);
     }
 
-    // Gets corresponding enum for the given command
-    private Command getCommandValue(char c){
-        for(Command command:Command.values()){
-            if(command.key==c){
-                return command;
-            }
-        }
-        return null;
-    }
-
-    // Gets current orientation of the vacuum cleaner
-    private Orientation getOrientation(){
-        for(Orientation orientation: Orientation.values()){
-            if(orientation.value==this.orientation){
-                return orientation;
-            }
-        }
-        return null;
-    }
 
     // Sets log variable to true or false.
     public void logActions(boolean log){

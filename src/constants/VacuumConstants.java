@@ -20,6 +20,30 @@ public class VacuumConstants {
             this.value=value;
             this.key=orientation;
         }
+        public static int getValueForOrientation(char orientation){
+            for(Orientation o:Orientation.values()){
+                if(o.key==orientation){
+                    return o.value;
+                }
+            }
+            throw new IllegalArgumentException("Orientation not found");
+        }
+        public static char getOrientationForValue(int value){
+            for(Orientation o:Orientation.values()){
+                if(o.value==value){
+                    return o.key;
+                }
+            }
+            throw new IllegalArgumentException("Orientation not found");
+        }
+        public static Orientation getOrientation(char orientation){
+            for(Orientation o:Orientation.values()){
+                if(o.key==orientation){
+                    return o;
+                }
+            }
+            throw new IllegalArgumentException("Orientation not found");
+        }
     }
 
     // There are two types of command i) Rotate vacuum cleaner to particular direction ii) Move the vacuum cleaner
@@ -39,6 +63,14 @@ public class VacuumConstants {
             this.value=value;
             this.commandType=commandType;
             this.key=command;
+        }
+        public static Command getCommand(char c){
+            for(Command command:Command.values()){
+                if(command.key==c){
+                    return command;
+                }
+            }
+            throw new IllegalArgumentException("Command not found");
         }
     }
 
