@@ -21,7 +21,7 @@ public class Main {
             char orientation=scan.next().charAt(0);
             System.out.print("Instructions:");
             String instructions=scan.next();
-            Vacuum vacuum=new Vacuum(vacuumX, vacuumY, new Grid(gridX, gridY), Orientation.getValueForOrientation(orientation));
+            Vacuum vacuum=new Vacuum(vacuumX, vacuumY, new Grid(gridX, gridY), Orientation.getOrientation(orientation));
             vacuum.executeInstructions(instructions);
             System.out.println("x="+vacuum.getX()+ " y="+vacuum.getY()+" orientation="+vacuum.getOrientation());
             System.out.print("Press 1 to continue, 2 to exit...");

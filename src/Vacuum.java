@@ -40,7 +40,7 @@ public class Vacuum {
     }
 
     // creates new object for vacuum cleaner, all the given parameters are mandatory for vacuum cleaner to work.
-    public Vacuum(int x, int y, Grid grid, int orientation){
+    public Vacuum(int x, int y, Grid grid, Orientation orientation){
         // validating the state parameters of the vacuum cleaner to ensure
         // that we are dealing with sanitized value.
         String error="The argument %s is invalid";
@@ -56,7 +56,7 @@ public class Vacuum {
         this.x=x;
         this.y=y;
         this.grid=grid;
-        this.orientation=orientation;
+        this.orientation=orientation.value;
     }
 
     // Vacuum cleaner receives the commands that needs to be executed
